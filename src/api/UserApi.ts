@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 export interface User {
     user_id: string,
     username: string,
-    password: string,
 }
 
 export interface Credentials {
@@ -16,8 +15,10 @@ export interface Credentials {
     password: string,
 }
 
-export const loginUser = async (credentials: Credentials) => {
-    return (await axiosInstance.post<User>(`/users/login`, credentials)).data
+export const loginUser = async (credentials: Credentials): Promise<User> => {
+    const res = await axiosInstance.post<User>(`/users/login`, credentials)
+    if (res.status === 201) return res.data
+    throw new Error('Login failed')
 }
 
 export const useUser = () => {

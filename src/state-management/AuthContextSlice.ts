@@ -1,7 +1,8 @@
 import { User } from "@/api/UserApi";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initLoggedInUser = { user_id: '', username: '', password: '' }
+const initLoggedInUser: User = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : { user_id: '', username: '' }
+const initIsLoggedIn = localStorage.getItem('user') ? true : false
 
 interface AuthContextState {
     isLoggedIn: boolean,
@@ -9,8 +10,8 @@ interface AuthContextState {
 }
 
 const initialState: AuthContextState = {
-    isLoggedIn: false,
-    loggedInUser: { user_id: "", username: "", password: "" }
+    isLoggedIn: initIsLoggedIn,
+    loggedInUser: initLoggedInUser
 }
 
 const authContextSlice = createSlice({
@@ -20,12 +21,12 @@ const authContextSlice = createSlice({
         setAuthContext: (state, action) => {
             state.isLoggedIn = true
             state.loggedInUser = action.payload
-            localStorage.setItem('user_id', state.loggedInUser.user_id)
+            localStorage.setItem('user', JSON.stringify(state.loggedInUser))
         },
         clearAuthContext: (state) => {
             state.isLoggedIn = false
             state.loggedInUser = initLoggedInUser
-            localStorage.removeItem('user_id')
+            localStorage.removeItem('user')
         },
     }
 })
