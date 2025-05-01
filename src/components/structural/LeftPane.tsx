@@ -1,16 +1,20 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Home, Settings, User, LogOut } from "lucide-react"
-import { useUser } from "@/logical/context/UserContext"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { clearAuthContext } from "@/state-management/AuthContextSlice"
+import toast from "react-hot-toast"
 
 const LeftPane = () => {
   const [isExpanded, setIsExpanded] = useState(false)
-  const { logout } = useUser()
   const nav = useNavigate()
 
+  const dispatch = useDispatch()
+
   const handleLogout = () => {
-    logout()
+    dispatch(clearAuthContext())
+    toast.success('Logged out successfully !')
     nav('/login')
   }
 

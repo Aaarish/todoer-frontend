@@ -1,18 +1,18 @@
-import { useAddTodo, useTodos } from "@/api/TodoApi"
+import { useTodos } from "@/api/TodoApi"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../ui/card"
 import { Pencil, Trash2 } from "lucide-react"
-import { useUser } from "@/logical/context/UserContext"
 import { AddTodoDialog } from "./AddTodoDialog"
 import toast from "react-hot-toast"
+import { useSelector } from "react-redux"
+import { RootState } from '@/state-management/Store'
 
 function CardGrid() {
-    const { user } = useUser()
+    const user = useSelector((state: RootState) => state.authContextSliceReducer.loggedInUser)
 
     const { data, isLoading, error } = useTodos(user.user_id)
 
     return (
         <>
-
             {isLoading && <p className="text-center text-8xl">Loading...</p>}
             {error && toast.error('Some error occurred while loading todos !')}
             {data && <><div className="flex justify-end p-4">

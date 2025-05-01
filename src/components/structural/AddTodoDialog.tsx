@@ -13,18 +13,19 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 import { useAddTodo } from "@/api/TodoApi"
-import { useUser } from "@/logical/context/UserContext"
+import { useSelector } from "react-redux"
+import { RootState } from "@/state-management/Store"
 
 export function AddTodoDialog() {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [open, setOpen] = useState(false)
-    const { user } = useUser()
+    const user = useSelector((state: RootState) => state.authContextSliceReducer.loggedInUser)
 
     const addTodoMutation = useAddTodo(user.user_id)
 
     const handleSubmit = async () => {
-        if (!user?.user_id) return
+        if (user.user_id == '') return
         addTodoMutation.mutate({ title, description })
         setOpen(false)
         setTitle("")
