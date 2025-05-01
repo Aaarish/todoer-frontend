@@ -1,19 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import Login from "@/components/structural/Login"
 import Home from "@/pages/Home";
-import { useUser } from "@/logical/context/UserContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state-management/Store";
 
 const AppRoutes = () => {
-    const { isLoggedIn } = useUser();
+    const user = useSelector((state: RootState) => state.authContextSliceReducer.isLoggedIn)
 
     return (
         <Routes>
-            {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}>
-                <Route path="" />
-                <Route path="/about" />
-            </Route>
+            <Route path="/" element={user ? <Home /> : <Navigate to="/login" replace />} />
         </Routes>
     )
 }
