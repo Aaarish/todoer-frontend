@@ -1,11 +1,9 @@
-import Layout from '@/components/structural/Layout'
-import Navbar from '@/components/structural/Navbar'
+import CardGrid from '@/components/structural/CardGrid'
 
 function Home() {
   return (
     <div>
-      <Navbar />
-      <Layout />
+      <CardGrid />
     </div>
   )
 }

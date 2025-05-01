@@ -20,9 +20,9 @@ const LeftPane = () => {
 
   const menuItems = [
     { icon: Home, label: "Home" },
-    { icon: Home, label: "Home" },
+    { icon: Home, label: "Home", handleClick: () => nav('/') },
     { icon: User, label: "Profile" },
-    { icon: Settings, label: "Settings" },
+    { icon: Settings, label: "Settings", handleClick: () => nav('/settings') },
     { icon: LogOut, label: "Logout", handleClick: handleLogout },
   ]
 
