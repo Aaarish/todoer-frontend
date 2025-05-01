@@ -12,8 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
-import { Todo } from "@/logical/Todo"
-import { addTodo } from "@/api/TodoApi"
+import { useAddTodo } from "@/api/TodoApi"
 import { useUser } from "@/logical/context/UserContext"
 
 export function AddTodoDialog() {
@@ -22,10 +21,11 @@ export function AddTodoDialog() {
     const [open, setOpen] = useState(false)
     const { user } = useUser()
 
+    const addTodoMutation = useAddTodo(user.user_id)
+
     const handleSubmit = async () => {
         if (!user?.user_id) return
-        const newTodo = new Todo("", title, description, user)
-        await addTodo(user.user_id, newTodo)
+        addTodoMutation.mutate({ title, description })
         setOpen(false)
         setTitle("")
         setDescription("")

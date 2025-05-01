@@ -1,4 +1,4 @@
-import { useUser } from "@/logical/context/UserContext";
+import { useUser } from "@/api/UserApi";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -6,14 +6,12 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const { login } = useUser();
+    const loginMutation = useUser();
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        const loggedInUser = await login(username, password);
-        if (loggedInUser) {
-            navigate('/');
-        }
+    const handleLogin = () => {
+        loginMutation.mutate({ username, password })
+        navigate('/');
     }
 
     return (
